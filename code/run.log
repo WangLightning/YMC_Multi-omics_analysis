@@ -1,0 +1,244 @@
+nohup: ignoring input
+
+------------------------- start running data_process.R: 2024-05-11 19:57:47 -------------------------
+
+------------------------- start running matrix_decomposition.R: 2024-05-11 19:57:52 -------------------------
+New names:
+• `` -> `...2`
+• `` -> `...3`
+• `` -> `...4`
+• `` -> `...5`
+• `` -> `...6`
+• `` -> `...7`
+New names:
+• `` -> `...2`
+• `` -> `...3`
+• `` -> `...4`
+• `` -> `...5`
+• `` -> `...6`
+• `` -> `...7`
+New names:
+• `` -> `...2`
+• `` -> `...3`
+• `` -> `...4`
+• `` -> `...5`
+• `` -> `...6`
+• `` -> `...7`
+New names:
+• `` -> `...2`
+• `` -> `...3`
+• `` -> `...4`
+• `` -> `...5`
+• `` -> `...6`
+• `` -> `...7`
+New names:
+• `` -> `...2`
+• `` -> `...3`
+• `` -> `...4`
+• `` -> `...5`
+• `` -> `...6`
+• `` -> `...7`
+New names:
+• `` -> `...2`
+• `` -> `...3`
+• `` -> `...4`
+• `` -> `...5`
+• `` -> `...6`
+• `` -> `...7`
+New names:
+• `` -> `...2`
+• `` -> `...3`
+• `` -> `...4`
+• `` -> `...5`
+• `` -> `...6`
+• `` -> `...7`
+New names:
+• `` -> `...2`
+• `` -> `...3`
+• `` -> `...4`
+• `` -> `...5`
+• `` -> `...6`
+• `` -> `...7`
+New names:
+• `` -> `...2`
+• `` -> `...3`
+• `` -> `...4`
+• `` -> `...5`
+• `` -> `...6`
+• `` -> `...7`
+New names:
+• `` -> `...2`
+• `` -> `...3`
+• `` -> `...4`
+• `` -> `...5`
+• `` -> `...6`
+• `` -> `...7`
+New names:
+• `` -> `...2`
+• `` -> `...3`
+• `` -> `...4`
+• `` -> `...5`
+• `` -> `...6`
+• `` -> `...7`
+New names:
+• `` -> `...2`
+• `` -> `...3`
+• `` -> `...4`
+• `` -> `...5`
+• `` -> `...6`
+• `` -> `...7`
+
+------------------------- start running matrix_decomposition_metabolic.R: 2024-05-11 19:58:31 -------------------------
+
+------------------------- start running gene_enrichment_analysis.R: 2024-05-11 19:58:34 -------------------------
+Running Enrichment for microarray 
+R Version:  R version 4.1.3 (2022-03-10) 
+
+snowfall 1.84-6.2 initialized (using snow 0.4-4): parallel execution on 40 CPUs.
+
+Library openxlsx loaded.
+Library openxlsx loaded in cluster.
+
+Library tidyverse loaded.
+Library tidyverse loaded in cluster.
+
+
+Stopping cluster
+
+Running Enrichment for rnaseq14 
+snowfall 1.84-6.2 initialized (using snow 0.4-4): parallel execution on 40 CPUs.
+
+Library openxlsx loaded.
+Library openxlsx loaded in cluster.
+
+Library tidyverse loaded.
+Library tidyverse loaded in cluster.
+
+
+Stopping cluster
+
+Running Enrichment for concatenate 
+snowfall 1.84-6.2 initialized (using snow 0.4-4): parallel execution on 40 CPUs.
+
+Library openxlsx loaded.
+Library openxlsx loaded in cluster.
+
+Library tidyverse loaded.
+Library tidyverse loaded in cluster.
+
+
+Stopping cluster
+
+Running Enrichment for H3 
+snowfall 1.84-6.2 initialized (using snow 0.4-4): parallel execution on 40 CPUs.
+
+Library openxlsx loaded.
+Library openxlsx loaded in cluster.
+
+Library tidyverse loaded.
+Library tidyverse loaded in cluster.
+
+
+Stopping cluster
+
+Running Enrichment for H3K4me3 
+snowfall 1.84-6.2 initialized (using snow 0.4-4): parallel execution on 40 CPUs.
+
+Library openxlsx loaded.
+Library openxlsx loaded in cluster.
+
+Library tidyverse loaded.
+Library tidyverse loaded in cluster.
+
+
+Stopping cluster
+
+Running Enrichment for H3K9ac 
+snowfall 1.84-6.2 initialized (using snow 0.4-4): parallel execution on 40 CPUs.
+
+Library openxlsx loaded.
+Library openxlsx loaded in cluster.
+
+Library tidyverse loaded.
+Library tidyverse loaded in cluster.
+
+
+Stopping cluster
+
+Running Enrichment for H3K14ac 
+snowfall 1.84-6.2 initialized (using snow 0.4-4): parallel execution on 40 CPUs.
+
+Library openxlsx loaded.
+Library openxlsx loaded in cluster.
+
+Library tidyverse loaded.
+Library tidyverse loaded in cluster.
+
+
+Stopping cluster
+
+Running Enrichment for H3K18ac 
+snowfall 1.84-6.2 initialized (using snow 0.4-4): parallel execution on 40 CPUs.
+
+Library openxlsx loaded.
+Library openxlsx loaded in cluster.
+
+Library tidyverse loaded.
+Library tidyverse loaded in cluster.
+
+
+Stopping cluster
+
+Running Enrichment for H3K36me3 
+snowfall 1.84-6.2 initialized (using snow 0.4-4): parallel execution on 40 CPUs.
+
+Library openxlsx loaded.
+Library openxlsx loaded in cluster.
+
+Library tidyverse loaded.
+Library tidyverse loaded in cluster.
+
+
+Stopping cluster
+
+Running Enrichment for H3K56ac 
+snowfall 1.84-6.2 initialized (using snow 0.4-4): parallel execution on 40 CPUs.
+
+Library openxlsx loaded.
+Library openxlsx loaded in cluster.
+
+Library tidyverse loaded.
+Library tidyverse loaded in cluster.
+
+
+Stopping cluster
+
+Running Enrichment for H4K5ac 
+snowfall 1.84-6.2 initialized (using snow 0.4-4): parallel execution on 40 CPUs.
+
+Library openxlsx loaded.
+Library openxlsx loaded in cluster.
+
+Library tidyverse loaded.
+Library tidyverse loaded in cluster.
+
+
+Stopping cluster
+
+Running Enrichment for H4K16ac 
+snowfall 1.84-6.2 initialized (using snow 0.4-4): parallel execution on 40 CPUs.
+
+Library openxlsx loaded.
+Library openxlsx loaded in cluster.
+
+Library tidyverse loaded.
+Library tidyverse loaded in cluster.
+
+
+Stopping cluster
+
+There were 12 warnings (use warnings() to see them)
+
+------------------------- start running format_enrichment_result.R: 2024-05-11 20:33:50 -------------------------
+
+-------------------------end : 2024-05-11 20:34:38-------------------------

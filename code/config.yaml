@@ -1,0 +1,44 @@
+######################
+# configuration file #
+######################
+---
+
+CPUs: 40
+number_dim: 6
+
+
+############################## GetData #############################################
+
+data_list:
+  - microarray # expr_ref_12_24_35
+  - rnaseq14 # count_sp_selected
+  - concatenate
+  - H3 # bp:-1000~500
+  - H3K4me3 
+  - H3K9ac
+  - H3K14ac
+  - H3K18ac
+  - H3K36me3
+  - H3K56ac
+  - H4K5ac
+  - H4K16ac
+
+
+############################## Enrichment ######################################
+
+enrichment:
+  signif_level: 0.05
+  GO:
+    minGeneNum: 1
+    maxGeneNum: .inf
+  KEGG:
+    minGeneNum: 1
+    maxGeneNum: .inf
+  Reactome:
+    minGeneNum: 1
+    maxGeneNum: .inf
+  minCommonGeneNum: 5
+  maxCommonGeneNum: 1000
+  
+
+
