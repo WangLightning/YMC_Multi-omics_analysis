@@ -28,23 +28,23 @@ All computational results can be found in the `results` directory generated.
 
 - ### `code` directory
 
-* **`run.sh`**  
-This script is used for running other scripts all in sequence.
+  * **`run.sh`**  
+  This script is used for running other scripts all in sequence.
 
-* **`config.yaml`**  
-This is the configuration file that contains basic information about datasets and script parameters.
+  * **`config.yaml`**  
+  This is the configuration file that contains basic information about datasets and script parameters.
 
-* **`data_process.R`**
-This script reads the data matrices of the transcriptome, metabolome, and epigenome, and prepares them for the following analysis.
+  * **`data_process.R`**
+  This script reads the data matrices of the transcriptome, metabolome, and epigenome, and prepares them for the following analysis.
 
-* **`matrix_decomposition.R` & `matrix_decomposition_metabolic.R`**  
-This script performs singular value decomposition(SVD) on data matrices, and obtains singular values and the polarized molecule- and sample-eigenvectors. These are saved in `results` directory.
+  * **`matrix_decomposition.R` & `matrix_decomposition_metabolic.R`**  
+  This script performs singular value decomposition(SVD) on data matrices, and obtains singular values and the polarized molecule- and sample-eigenvectors. These are saved in `results` directory.
 
-* **`gene_enrichment_analysis.R` & `format_enrichment_result.R`**  
-This script performs the gene set enrichment analysis by the Wilcoxon scoring method on the polarized gene eigenvector. The enrichment result is saved in `results` directory.
+  * **`gene_enrichment_analysis.R` & `format_enrichment_result.R`**  
+  This script performs the gene set enrichment analysis by the Wilcoxon scoring method on the polarized gene eigenvector. The enrichment result is saved in `results` directory.
 
-* **`enrichment_utils.R`**  
-This script contains functions used to perform enrichment analysis.
+  * **`enrichment_utils.R`**  
+  This script contains functions used to perform enrichment analysis.
 
 
 
@@ -62,4 +62,9 @@ This script contains functions used to perform enrichment analysis.
 ### figures folder
 
 This folder contains most of the figures in our analysis. All figures in the folder are plotted by `R`.
+
+##  Contact
+
+Please contact wanglinting@amss.ac.cn for any questions.
+
 
