@@ -28,33 +28,25 @@ All computational results can be found in the `results` directory generated.
 
 - ### `code` directory
 
-* **`run.sh`** 
-This is the script used for running other scripts all in sequence.
+* **`run.sh`**  
+This script is used for running other scripts all in sequence.
 
 * **`config.yaml`**  
 This is the configuration file that contains basic information about datasets and script parameters.
 
+* **`data_process.R`**
+This script reads the data matrices of the transcriptome, metabolome, and epigenome, and prepares them for the following analysis.
 
 * **`matrix_decomposition.R` & `matrix_decomposition_metabolic.R`**  
-This script reads the expression profiles of human and rat, performs singular value decomposition(SVD), and obtains the polarized gene and sample eigenvector. The polarized eigenvectors are saved in */results/loadings*
+This script performs singular value decomposition(SVD) on data matrices, and obtains singular values and the polarized molecule- and sample-eigenvectors. These are saved in `results` directory.
 
-**gene_enrichment_analysis.R & format_enrichment_result.R**  
-This script performs the gene set enrichment analysis by the Wilcoxon scoring method on the polarized gene eigenvector. The enrichment result is saved in */results/enrichment*
+* **`gene_enrichment_analysis.R` & `format_enrichment_result.R`**  
+This script performs the gene set enrichment analysis by the Wilcoxon scoring method on the polarized gene eigenvector. The enrichment result is saved in `results` directory.
 
-**rat_comparison.R**  
-This script performs the comparison of GK/WST rat islet expressions of each week. The enrichment result is saved in */results/comparison*
-
-**human_resampling.R**  
-This script performs re-sampling of human islets to evaluate the stability of gene eigenvector. The result is saved in */results/human_resampling.csv*. It should be noted that the result run by CodeOcean is slightly different from the result file used to plot due to the different random seed.
-
-**aggregation.R**  
-This script performs Robust Rank Aggregation on the angiogenesis eigenvector of human and rat, and obtains the aggregated list. The result is saved in */results/aggregation.csv*
-
-**concatenated_expression_profile_analysis.R**  
-This script performs the analysis of the concatenated expression profile of human and rat. The result is saved in */results/concatenated_expression_profile_analysis*
-
-**enrichment_utils.R**  
+* **`enrichment_utils.R`**  
 This script contains functions used to perform enrichment analysis.
+
+
 
 
 ### data folder
