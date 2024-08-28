@@ -4,7 +4,6 @@
 
 set -ue
 
-# 执行每条语句前打印时间
 printExecuteTime() {
     echo -e "\n-------------------------" start running $*: $(date "+%Y-%m-%d %H:%M:%S") "-------------------------"
 }
