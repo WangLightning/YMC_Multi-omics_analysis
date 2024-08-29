@@ -6,10 +6,11 @@ This repository contains the core code of our analysis. It includes:
 1. Singular value decomposition (SVD) of each omics data matrix. 
 2. The polarization sample- and molecule-eigenvectors by sorting their loadings.
 3. The enrichment analysis on the polarized gene-eigenvectors of the transcriptome.
-4. The alignment of oxygen curves by DDTW.
+4. The alignment of oxygen concentration curves of different omics datasets by DDTW.
 5. The computation of time differences between different omics datasets.
 6. Other results.
 
+**Note**: This pipeline provides a general computational framework applicable to other data integration problems.
 
 ### Code language
 
@@ -24,7 +25,6 @@ bash run.sh
 All computational results can be found in the `results` directory generated.
 
 ## Directory Description
-
 
 - ### `code` directory
 
