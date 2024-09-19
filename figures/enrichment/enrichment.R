@@ -3,8 +3,6 @@ suppressMessages({
     library(openxlsx)
 })
 
-setwd("Z:/home/wanglinting/Yeast/CodeOcean/figures/enrichment")
-
 
 data <- read.xlsx("../../results/concatenate/enrichment/yeast_all.xlsx") %>%
     as_tibble() %>% 
@@ -172,7 +170,7 @@ ggplot(
         axis.line.y = element_line(linetype = 1, color = "black", linewidth = 0.25),
         axis.ticks.y = element_line(color = "black", linewidth = 0.25, lineend = 1),
     ) 
-ggsave("Enrichment1.pdf", width = 9.5, height = 9.5, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
+ggsave("Enrichment1.pdf", width = 9.5, height = 9.5, units = "cm" ) 
 
 
 
@@ -276,5 +274,4 @@ ggplot(
         axis.line.y = element_line(linetype = 1, color = "black", linewidth = 0.25),
         axis.ticks.y = element_line(color = "black", linewidth = 0.25, lineend = 1),
     ) 
-ggsave("Enrichment2.pdf", width = 9.5, height = 9.5, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
-
+ggsave("Enrichment2.pdf", width = 9.5, height = 9.5, units = "cm" ) 

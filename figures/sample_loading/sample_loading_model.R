@@ -5,10 +5,6 @@ suppressMessages({
     library(tidyverse)
 })
 
-setwd("Z:/home/wanglinting/Yeast/CodeOcean/figures/sample_loading")
-
-
-
 color_1A <- colorRampPalette(c("white", "orange2"))(20L)[c(8L)]
 color_1B <- colorRampPalette(c("white", "royalblue"))(20L)[c(8L)]
 color_2A <- colorRampPalette(c("white",  "#FF4848"))(20L)[c(8L)]
@@ -55,19 +51,19 @@ p <- ggplot() +
     scale_y_continuous(breaks = c(-0.5, 0.5), labels = c("Level 2", "Level 1")) +
     theme_classic() +
     theme(
-        axis.line.x = element_blank(),  # 去掉默认的 x 轴
+        axis.line.x = element_blank(),  
         axis.line.y = element_line(linewidth = 0.25),  
-        axis.text.x = element_blank(),  # 去掉 x 轴标签
-        axis.ticks.x = element_blank(), # 去掉 x 轴刻度
-        axis.title = element_blank(),  # 去掉轴标题
-        axis.text.y = element_text(size = 7, hjust = 1.2), # 使y轴标签稍微靠近刻度线
-        axis.ticks = element_line(linewidth = 0.25), # 坐标刻度线宽度，但是似乎比pt更大一点
-        axis.ticks.length = unit(0.07, "cm"), # 坐标刻度长度
+        axis.text.x = element_blank(),  
+        axis.ticks.x = element_blank(), 
+        axis.title = element_blank(),  
+        axis.text.y = element_text(size = 7, hjust = 1.2), 
+        axis.ticks = element_line(linewidth = 0.25), 
+        axis.ticks.length = unit(0.07, "cm"), 
     ) +
     annotation_custom(
         grob = linesGrob(arrow = arrow(type = "open", length = unit(0.15, "cm")), gp = gpar(col = "black", lwd = 0.75)),
         xmin = -Inf, xmax = Inf, ymin = -0.1, ymax = -0.1
     )
-ggsave("Sample_model.pdf", p, width = 9.5, height = 5.5, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
+ggsave("Sample_model.pdf", p, width = 9.5, height = 5.5, units = "cm" )
 
 

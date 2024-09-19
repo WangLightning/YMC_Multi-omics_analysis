@@ -1,4 +1,3 @@
-# 安装和加载必要的包
 if (!require("dtw")) {
     install.packages("dtw")
 }
@@ -7,7 +6,6 @@ library(DTWBI)
 library(tidyverse)
 
 
-setwd("Z:/home/wanglinting/Yeast/code/PreProcess/oxygen_DTW")
 
 # read data
 data_raw_YMC2005 <- read_csv("YMC2005_oxygen.csv", show_col_types = FALSE) %>% 
@@ -229,10 +227,6 @@ write_csv(data_ref_14, "oxygen_ref_YMC2014.csv")
 
 
 # DTW
-# 使用了asymmetricP05步骤模式并设置了open.begin和open.end参数为TRUE，
-# 这允许DTW匹配开始和结束于任意位置，这是实现子序列匹配的关键。
-# 但是query序列会被完全匹配，所以reference必须是长序列且包含短序列
-# 当然，假如短序列也有一端不与长序列匹配，这样通常这一段都会映射到长序列的端点，因此只需要截取一下就好了
 # dtw_result <- dtw(data_raw_meta_lc$dO2_dtw, data_raw_YMC2005$dO2_dtw, step.pattern = symmetric1)
 # dtw_result <- dtw(data_raw_meta_lc$dO2_dtw, data_raw_YMC2005$dO2_dtw, step.pattern = symmetric2)
 # dtw_result <- dtw(data_raw_meta_lc$dO2_dtw, data_raw_YMC2005$dO2_dtw, step.pattern = asymmetric, open.end = TRUE, open.begin = TRUE)
@@ -243,14 +237,12 @@ dtw_result <- dtw(local.derivative.ddtw(data_raw_meta_lc$dO2_dtw), local.derivat
 # dtw_result <- dtw(data_raw_meta_lc$dO2_dtw, data_raw_YMC2005$dO2_dtw, step.pattern = asymmetricP2, open.end = TRUE, open.begin = TRUE)
 
 
-# 1.绘制两条曲线一一映射结果，映射用直线连接
 data_mapping_plot1 <- tibble(
     t1 = data_raw_meta_lc$Time_dtw[dtw_result$index1]+0.5,
     y1 = data_raw_meta_lc$dO2_dtw[dtw_result$index1]+1,
     t2 = data_raw_YMC2005$Time_dtw[dtw_result$index2],
     y2 = data_raw_YMC2005$dO2_dtw[dtw_result$index2]
 )
-# 当映射连接线过多时，可以间隔画连接线
 data_mapping_plot1 <- data_mapping_plot1[seq(1, nrow(data_mapping_plot1), by = 5),]
 p <- ggplot() +
     geom_line(data = data_raw_meta_lc, aes(x = Time_dtw+0.5, y = dO2_dtw+1, colour = 'Metabolome of LC-MS'), linewidth = 1) +
@@ -270,7 +262,6 @@ p <- ggplot() +
 ggsave("DDTW_lc_YMC2005_asymmetricP05_plot1.pdf", p, height = 5, width = 7)
 
 
-# 2.绘制目标曲线在参考曲线时间轴上的结果
 data_mapping_plot2 <- tibble(
     Time = data_raw_YMC2005$Time_dtw[dtw_result$index2],
     dO2 = data_raw_meta_lc$dO2_dtw[dtw_result$index1]+1,
@@ -291,7 +282,6 @@ data_mapping_plot2 <- tibble(
 # ggsave("DDTW_lc_YMC2005_asymmetricP05_plot2.pdf", p, height = 5, width = 10)
 
 
-# 3.该表格也是目标数据映射后的时间点
 data_point_lc <- data_mapping_plot2 %>% 
     filter(n %in% times_meta_lc) %>% 
     mutate(t = 1:24)
@@ -333,14 +323,12 @@ dtw_result <- dtw(local.derivative.ddtw(data_raw_meta_gc$dO2_dtw), local.derivat
 # dtw_result <- dtw(data_raw_meta_gc$dO2_dtw, data_raw_YMC2005$dO2_dtw, step.pattern = asymmetricP1, open.end = TRUE, open.begin = TRUE)
 # dtw_result <- dtw(data_raw_meta_gc$dO2_dtw, data_raw_YMC2005$dO2_dtw, step.pattern = asymmetricP2, open.end = TRUE, open.begin = TRUE)
 
-# 1.绘制两条曲线一一映射结果，映射用直线连接
 data_mapping_plot1 <- tibble(
     t1 = data_raw_meta_gc$Time_dtw[dtw_result$index1]+0.5,
     y1 = data_raw_meta_gc$dO2_dtw[dtw_result$index1]+1,
     t2 = data_raw_YMC2005$Time_dtw[dtw_result$index2],
     y2 = data_raw_YMC2005$dO2_dtw[dtw_result$index2]
 )
-# 当映射连接线过多时，可以间隔画连接线
 data_mapping_plot1 <- data_mapping_plot1[seq(1, nrow(data_mapping_plot1), by = 5),]
 p <- ggplot() +
     geom_line(data = data_raw_meta_gc, aes(x = Time_dtw+0.5, y = dO2_dtw+1, colour = 'Metabolome of GC-TFOMS'), linewidth = 1) +
@@ -360,7 +348,6 @@ p <- ggplot() +
 ggsave("DDTW_gc_YMC2005_asymmetricP05_plot1.pdf", p, height = 5, width = 7)
 
 
-# 2.绘制目标曲线在参考曲线时间轴上的结果
 data_mapping_plot2 <- tibble(
     Time = data_raw_YMC2005$Time_dtw[dtw_result$index2],
     dO2 = data_raw_meta_gc$dO2_dtw[dtw_result$index1]+1,
@@ -381,7 +368,6 @@ data_mapping_plot2 <- tibble(
 # ggsave("DDTW_gc_YMC2005_asymmetricP05_plot2.pdf", p, height = 5, width = 10)
 
 
-# 该表格也是目标数据映射后的时间点
 data_point_gc <- data_mapping_plot2 %>% 
     filter(n %in% times_meta_gc) %>% 
     mutate(t = 1:24)
@@ -426,14 +412,12 @@ dtw_result <- dtw(local.derivative.ddtw(data_raw_histone$dO2_dtw), local.derivat
 # dtw_result <- dtw(data_raw_histone$dO2_dtw, data_raw_YMC2014$dO2_dtw, step.pattern = asymmetricP2, window.type = "sakoechiba", window.size = 100, open.end = TRUE, open.begin = TRUE)
 
 
-# 1.绘制两条曲线一一映射结果，映射用直线连接
 data_mapping_plot1 <- tibble(
     t1 = data_raw_histone$Time_dtw[dtw_result$index1],
     y1 = data_raw_histone$dO2_dtw[dtw_result$index1]+1,
     t2 = data_raw_YMC2014$Time_dtw[dtw_result$index2]+0.2,
     y2 = data_raw_YMC2014$dO2_dtw[dtw_result$index2]
 )
-# 当映射连接线过多时，可以间隔画连接线
 data_mapping_plot1 <- data_mapping_plot1[seq(1, nrow(data_mapping_plot1), by = 8),]
 p <- ggplot() +
     geom_line(data = data_raw_histone, aes(x = Time_dtw, y = dO2_dtw+1, colour = 'Epigenome of histone modification'), linewidth = 1) +
@@ -452,7 +436,6 @@ p <- ggplot() +
 ggsave("DDTW_histone_YMC2014_asymmetricP2_plot1.pdf", p, height = 5, width = 7)
 
 
-# 2.绘制目标曲线在参考曲线时间轴上的结果
 data_mapping_plot2 <- tibble(
     Time = data_raw_YMC2014$Time_dtw[dtw_result$index2],
     dO2 = data_raw_histone$dO2_dtw[dtw_result$index1]+1,
@@ -472,7 +455,6 @@ data_mapping_plot2 <- tibble(
 # # ggsave("DTW_histone_YMC2014_asymmetricP2_plot2.pdf", p, height = 5, width = 10)
 # ggsave("DDTW_histone_YMC2014_asymmetricP2_plot2.pdf", p, height = 5, width = 10)
 
-# 3. 添加目标数据映射后的时间点
 data_point_histone <- data_mapping_plot2 %>% 
     filter(n %in% times_histone) %>% 
     mutate(t = 1:16)

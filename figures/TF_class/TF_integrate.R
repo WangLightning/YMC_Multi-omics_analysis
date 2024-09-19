@@ -4,7 +4,6 @@ suppressMessages({
     library(RColorBrewer)
 })
 
-setwd("Z:/home/wanglinting/Yeast/CodeOcean/figures/TF")
 
 colors <- c(
     "#8DD3C7",
@@ -145,12 +144,10 @@ fisher.test(HE_2B) # 0.001163
 
 # plot --------------------------------------------------------------------
 
-# 选择除了 Unknown 以外的 top5
 data_1 <- data_1A_class %>%
     filter(class != 'Unknown') %>%
     arrange(desc(n)) %>%
     slice_head(n = 5)
-# 其他的行合并为 Others & Unknown
 data_2 <- data_1A_class %>%
     anti_join(data_1, by = 'class') %>%
     summarize(class = 'Unknown', n = sum(n))
@@ -188,15 +185,13 @@ ggplot(data_plot, aes(x = class, y = n, fill = class)) +
         axis.title.y = element_blank(),
         legend.position = "none",
     )
-ggsave("TF_class_1A.pdf", width = 8, height = 4, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
+ggsave("TF_class_1A.pdf", width = 8, height = 4, units = "cm" ) 
 
 
-# 选择除了 Unknown 以外的 top5
 data_1 <- data_1B_class %>%
     filter(class != 'Unknown') %>%
     arrange(desc(n)) %>%
     slice_head(n = 5)
-# 其他的行合并为 Others & Unknown
 data_2 <- data_1B_class %>%
     anti_join(data_1, by = 'class') %>%
     summarize(class = 'Unknown', n = sum(n))
@@ -235,15 +230,13 @@ ggplot(data_plot, aes(x = class, y = n, fill = class)) +
         axis.title.y = element_blank(),
         legend.position = "none",
     )
-ggsave("TF_class_1B.pdf", width = 8, height = 4, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
+ggsave("TF_class_1B.pdf", width = 8, height = 4, units = "cm" ) 
 
 
-# 选择除了 Unknown 以外的 top5
 data_1 <- data_2A_class %>%
     filter(class != 'Unknown') %>%
     arrange(desc(n)) %>%
     slice_head(n = 5)
-# 其他的行合并为 Others & Unknown
 data_2 <- data_2A_class %>%
     anti_join(data_1, by = 'class') %>%
     summarize(class = 'Unknown', n = sum(n))
@@ -282,14 +275,12 @@ ggplot(data_plot, aes(x = class, y = n, fill = class)) +
         axis.title.y = element_blank(),
         legend.position = "none",
     )
-ggsave("TF_class_2A.pdf", width = 8, height = 4, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
+ggsave("TF_class_2A.pdf", width = 8, height = 4, units = "cm" ) 
 
-# 选择除了 Unknown 以外的 top5
 data_1 <- data_2B_class %>%
     filter(class != 'Unknown') %>%
     arrange(desc(n)) %>%
     slice_head(n = 5)
-# 其他的行合并为 Others & Unknown
 data_2 <- data_2B_class %>%
     anti_join(data_1, by = 'class') %>%
     summarize(class = 'Unknown', n = sum(n))
@@ -327,7 +318,7 @@ ggplot(data_plot, aes(x = class, y = n, fill = class)) +
         axis.title.y = element_blank(),
         legend.position = "none",
     )
-ggsave("TF_class_2B.pdf", width = 8, height = 4, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
+ggsave("TF_class_2B.pdf", width = 8, height = 4, units = "cm" ) 
 
 
 

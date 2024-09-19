@@ -3,7 +3,6 @@ suppressMessages({
     library(RColorBrewer)
 })
 
-setwd("Z:/home/wanglinting/Yeast/CodeOcean/figures/svalues")
 
 dir_result <- "../../results"
 

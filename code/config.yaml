@@ -10,10 +10,9 @@ number_dim: 6
 ############################## GetData #############################################
 
 data_list:
-  - microarray # expr_ref_12_24_35
-  - rnaseq14 # count_sp_selected
+  - microarray 
+  - rnaseq14 
   - concatenate
-  - H3 # bp:-1000~500
   - H3K4me3 
   - H3K9ac
   - H3K14ac

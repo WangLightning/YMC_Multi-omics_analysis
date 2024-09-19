@@ -6,7 +6,6 @@ suppressMessages({
     library(tidyverse)
 })
 
-# setwd("Z:/home/wanglinting/Yeast/CodeOcean/figures/timing")
 
 # parameters --------------------------------------------------------------
 
@@ -142,39 +141,30 @@ if (time_align == "ddtw") {
 
 } 
 
-# 数据正规化
 scalize <- function(x) {
-    # 标准化
     (x - mean(x, na.rm = TRUE)) / sd(x, na.rm = TRUE)  
 }
 normalize <- function(x) {
-    # 归一化
     (x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
 }
 
-# 计算序列的距离
-# 使用mapply函数优化计算
+
 distance_ts <- function(ts1, ts2, lag = 1000) {
     
     calculate_distance <- function(i, ts1, ts2) {
-        # 根据时间差i移动时间序列ts1
         shifted_ts1 <- if (i < 0) {
             c(rep(NA, abs(i)), ts1[1:(length(ts1) + i)])
         } else {
             c(ts1[(i + 1):length(ts1)], rep(NA, i))
         }
 
-        # 计算并返回移动后的距离
         mean(abs(shifted_ts1 - ts2), na.rm = TRUE)
     }
 
-    # 确定实际的最大时间差
     l <- min(lag, length(ts1))
     
-    # 使用mapply对时间差范围内的每一个值应用calculate_distance函数
     distances <- mapply(calculate_distance, -l:l, MoreArgs = list(ts1 = ts1, ts2 = ts2))
     
-    # 创建一个数据框存储结果
     distance_df <- data.frame(Time_Difference = -l:l, Distance = distances)
     
     return(distance_df)
@@ -183,15 +173,12 @@ distance_ts <- function(ts1, ts2, lag = 1000) {
 distance2_ts <- function(ts1, ts2, lag = 1000) {
     
     calculate_distance <- function(i, ts1, ts2) {
-        # 根据时间差i移动时间序列ts1
         shifted_ts1 <- if (i < 0) {
             c(rep(NA, abs(i)), ts1[1:(length(ts1) + i)])
         } else {
             c(ts1[(i + 1):length(ts1)], rep(NA, i))
         }
-        
-        # ts2只保留固定时间点
-        # 特定的时间点，包括超出范围的值
+
         specific_times <- c(
             0.417,
             0.833,
@@ -229,27 +216,20 @@ distance2_ts <- function(ts1, ts2, lag = 1000) {
             14.167,
             14.583,
             15.000
-        )  # 包括超出timepoints范围的时间点
+        )  
         
-        # 创建结果向量
-        selected_ts2 <- rep(NA, length(ts2))  # 初始化结果向量，全部值设为NA
-        # 找出特定时间点在timepoints中的位置
+        selected_ts2 <- rep(NA, length(ts2))  
         indices <- match(specific_times, timepoints)
-        # 从a中提取对应特定时间点的值，仅当索引有效时（不是NA）
         valid_indices <- !is.na(indices)
         selected_ts2[indices[valid_indices]] <- ts2[indices[valid_indices]]
         
-        # 计算并返回移动后的距离
         mean(abs(shifted_ts1 - selected_ts2), na.rm = TRUE)
     }
     
-    # 确定实际的最大时间差
     l <- min(lag, length(ts1))
     
-    # 使用mapply对时间差范围内的每一个值应用calculate_distance函数
     distances <- mapply(calculate_distance, -l:l, MoreArgs = list(ts1 = ts1, ts2 = ts2))
     
-    # 创建一个数据框存储结果
     distance_df <- data.frame(Time_Difference = -l:l, Distance = distances)
     
     return(distance_df)
@@ -379,7 +359,6 @@ if (interpolation_method == "Linear") {
 }
 
 
-# 数据标准化
 if (is_norm == "Norm") {
     interp_microarray$value <- normalize(interp_microarray$value)
     interp_metabolite$value <- normalize(interp_metabolite$value)
@@ -388,7 +367,6 @@ if (is_norm == "Norm") {
     interp_metabolite$value <- scalize(interp_metabolite$value)
 }
 
-# 画出插值结果
 p <- ggplot() +
     geom_line(data = interp_microarray, aes(x = time, y = value, color = "Transcriptome of Tu et al. 2005")) +
     geom_line(data = interp_metabolite, aes(x = time, y = value, color = "Metabolome")) +
@@ -396,10 +374,9 @@ p <- ggplot() +
     theme_minimal()
 ggsave(file.path(dir_res, "Interpolation_dim1.pdf"), p, height = 5, width = 10)
 
-# 计算最优对齐
 if (align_method == "ccf") {
     
-    # 计算ccf，并找到相位差
+    
     ccf_microarray_metabolite <- ccf(interp_metabolite$value, interp_microarray$value, lag.max = 1500, plot = F)
     timing_microarray_metabolite <- ccf_microarray_metabolite$lag[which.max(ccf_microarray_metabolite$acf)]
     # plot
@@ -411,10 +388,10 @@ if (align_method == "ccf") {
     
 } else if (align_method == "distance1") {
     
-    # 计算距离，并找到时间差
+    
     dis_microarray_metabolite <- distance_ts(interp_metabolite$value, interp_microarray$value)
     timing_microarray_metabolite <- dis_microarray_metabolite$Time_Difference[which.min(dis_microarray_metabolite$Distance)]
-    # 绘制距离随时间差变化的图
+    
     p <- ggplot(dis_microarray_metabolite, aes(x = Time_Difference*0.001, y = Distance)) +
         geom_line() +
         geom_vline(xintercept = timing_microarray_metabolite*0.001, color = "grey", lty = 2) +
@@ -425,10 +402,10 @@ if (align_method == "ccf") {
     
 } else if (align_method == "distance2") {
     
-    # 计算距离，并找到时间差
+    
     dis_microarray_metabolite <- distance2_ts(interp_metabolite$value, interp_microarray$value)
     timing_microarray_metabolite <- dis_microarray_metabolite$Time_Difference[which.min(dis_microarray_metabolite$Distance)]
-    # 绘制距离随时间差变化的图
+    
     p <- ggplot(dis_microarray_metabolite, aes(x = Time_Difference*0.001, y = Distance)) +
         geom_line() +
         geom_vline(xintercept = timing_microarray_metabolite*0.001, color = "grey", lty = 2) +
@@ -439,7 +416,7 @@ if (align_method == "ccf") {
     
 }
 
-# 绘制最优对齐曲线
+
 ts1 <- interp_metabolite$value
 ts2 <- interp_microarray$value
 i <- timing_microarray_metabolite
@@ -463,7 +440,7 @@ data_microarray_1 <- data_microarray %>%
 data_metabolite_1 <- data_metabolite %>% 
     select(time = Time, value = `2`)
 
-# 插值计算
+
 if (interpolation_method == "Linear") {
     # linear
     interp_microarray <- tibble(
@@ -486,7 +463,7 @@ if (interpolation_method == "Linear") {
     )
 }
 
-# 数据标准化
+
 if (is_norm == "Norm") {
     interp_microarray$value <- normalize(interp_microarray$value)
     interp_metabolite$value <- normalize(interp_metabolite$value)
@@ -495,7 +472,7 @@ if (is_norm == "Norm") {
     interp_metabolite$value <- scalize(interp_metabolite$value)
 }
 
-# 画出插值结果
+
 p <- ggplot() +
     geom_line(data = interp_microarray, aes(x = time, y = value, color = "Transcriptome of Tu et al. 2005")) +
     geom_line(data = interp_metabolite, aes(x = time, y = value, color = "Metabolome")) +
@@ -503,10 +480,10 @@ p <- ggplot() +
     theme_minimal()
 ggsave(file.path(dir_res, "Interpolation_dim2.pdf"), p, height = 5, width = 10)
 
-# 计算最优对齐
+
 if (align_method == "ccf") {
     
-    # 计算ccf，并找到相位差
+    
     ccf_microarray_metabolite <- ccf(interp_metabolite$value, interp_microarray$value, lag.max = 1000, plot = F)
     timing_microarray_metabolite <- ccf_microarray_metabolite$lag[which.max(ccf_microarray_metabolite$acf)]
     # plot
@@ -518,10 +495,10 @@ if (align_method == "ccf") {
     
 } else if (align_method == "distance1") {
     
-    # 计算距离，并找到时间差
+    
     dis_microarray_metabolite <- distance_ts(interp_metabolite$value, interp_microarray$value)
     timing_microarray_metabolite <- dis_microarray_metabolite$Time_Difference[which.min(dis_microarray_metabolite$Distance)]
-    # 绘制距离随时间差变化的图
+    
     p <- ggplot(dis_microarray_metabolite, aes(x = Time_Difference*0.001, y = Distance)) +
         geom_line() +
         geom_vline(xintercept = timing_microarray_metabolite*0.001, color = "grey", lty = 2) +
@@ -532,10 +509,10 @@ if (align_method == "ccf") {
     
 } else if (align_method == "distance2") {
     
-    # 计算距离，并找到时间差
+    
     dis_microarray_metabolite <- distance2_ts(interp_metabolite$value, interp_microarray$value)
     timing_microarray_metabolite <- dis_microarray_metabolite$Time_Difference[which.min(dis_microarray_metabolite$Distance)]
-    # 绘制距离随时间差变化的图
+    
     p <- ggplot(dis_microarray_metabolite, aes(x = Time_Difference*0.001, y = Distance)) +
         geom_line() +
         geom_vline(xintercept = timing_microarray_metabolite*0.001, color = "grey", lty = 2) +
@@ -545,7 +522,7 @@ if (align_method == "ccf") {
     
 }
 
-# 绘制最优对齐曲线
+
 ts1 <- interp_metabolite$value
 ts2 <- interp_microarray$value
 i <- timing_microarray_metabolite

@@ -3,8 +3,6 @@ suppressMessages({
 })
 
 
-setwd("Z:/home/wanglinting/Yeast/CodeOcean/figures/sample_loading")
-
 number_dim <- 6
 # colorPalette <- c("orange2", "royalblue", "red2", "green4")
 # scales::show_col(colorRampPalette(c("white", "green4"))(15L))
@@ -22,19 +20,16 @@ phase <- function(Dim, Loading){
 }
 phase <- Vectorize(phase)
 
-# 自定义标签函数，隔5个显示标签
 custom_labels_5 <- function(labels) {
     new_labels <- ifelse(seq_along(labels) %% 5 == 1, labels, "")
     return(new_labels)
 }
 
-# 自定义标签函数，隔3个显示标签
 custom_labels_3 <- function(labels) {
     new_labels <- ifelse(seq_along(labels) %% 3 == 1, labels, "")
     return(new_labels)
 }
 
-# 自定义标签函数，隔4个显示标签
 custom_labels_2 <- function(labels) {
     new_labels <- ifelse(seq_along(labels) %% 2 == 1, labels, "")
     return(new_labels)
@@ -63,7 +58,6 @@ ggplot(data_plot, aes(x = Sample, y = Loading)) +
     geom_bar(stat = "identity", fill = "#fd999a") + 
     labs(title = "Transcriptome from Tu et al. 2005 (Level 0)") +
     theme_bw() 
-ggsave("sample_loading_0_YMC2005.svg", width = 4.1667*900, height =  4.1667*400, units = "px" ) 
 
 
 # eigen component 1&2
@@ -80,7 +74,6 @@ ggplot(data_plot, aes(x = Sample, y = Loading)) +
     scale_fill_manual(values = colorPalette) +
     labs(title = "Transcriptome from Tu et al. 2005") +
     theme_bw()
-ggsave("sample_loading_12_YMC2005.svg", width = 4.1667*1000, height =  4.1667*500, units = "px" ) 
 
 
 # YMC2014 --------------------------------------------------------------
@@ -106,7 +99,6 @@ ggplot(data_plot, aes(x = Sample, y = Loading)) +
     geom_bar(stat = "identity", fill = "#fd999a") + 
     labs(title = "Transcriptome from Zheng et al. 2014 (Level 0)") +
     theme_bw() 
-ggsave("sample_loading_0_YMC2014.svg", width = 4.1667*600, height =  4.1667*400, units = "px" ) 
 
 
 
@@ -124,7 +116,6 @@ ggplot(data_plot, aes(x = Sample, y = Loading)) +
     scale_fill_manual(values = colorPalette) +
     labs(title = "Transcriptome from Zheng et al. 2014") +
     theme_bw()
-ggsave("sample_loading_12_YMC2014.svg", width = 4.1667*600, height =  4.1667*400, units = "px" ) 
 
 
 # concatenation -----------------------------------------------------------
@@ -158,27 +149,25 @@ ggplot(data_plot, aes(x = Sample, y = Loading)) +
     theme(
         plot.title = element_text(size = 9, vjust = -2), 
         plot.subtitle = element_text(size = 7, vjust = -2),
-        axis.text.x = element_text(size = 6, vjust = 1.2), # 使y轴标签稍微靠近刻度线
-        axis.text.y = element_text(size = 5, hjust = 1.2), # 使y轴标签稍微靠近刻度线
+        axis.text.x = element_text(size = 6, vjust = 1.2), 
+        axis.text.y = element_text(size = 5, hjust = 1.2), 
         axis.title = element_text(size = 7),
-        axis.line = element_blank(), # 去掉坐标轴，否则会和边框重复导致线宽加粗
-        axis.ticks = element_line(linewidth = 0.25), # 坐标刻度线宽度，但是似乎比pt更大一点
-        axis.ticks.length = unit(0.07, "cm"), # 坐标刻度长度
-        panel.border = element_rect(linewidth = 0.25), # 分面的框线宽度
-        panel.grid = element_line(linewidth = 0.25), # 分面内格线宽度
-        panel.spacing.y = unit(0.01, "cm"), # 不同分面的距离
-        strip.text = element_text(size = 7), # 分面标题大小
-        strip.background = element_blank(), # 去除分面标题框背景
-        strip.switch.pad.grid = unit(0.01, "cm"), # 分面标题距离分面的距离
+        axis.line = element_blank(), 
+        axis.ticks = element_line(linewidth = 0.25), 
+        axis.ticks.length = unit(0.07, "cm"), 
+        panel.border = element_rect(linewidth = 0.25),
+        panel.grid = element_line(linewidth = 0.25), 
+        panel.spacing.y = unit(0.01, "cm"), 
+        strip.text = element_text(size = 7), 
+        strip.background = element_blank(),
+        strip.switch.pad.grid = unit(0.01, "cm"), 
         legend.position = c(0.8,1.15),
-        legend.direction = "horizontal", # 图例水平放置
+        legend.direction = "horizontal", 
         legend.title = element_text(size = 7),
-        legend.text = element_text(size = 6, margin = margin(0, 0, 0, 0.05, unit = "cm")), # 使图例更紧凑
-        legend.key.size = unit(0.25, "cm"), # 调整图例符号的大小
+        legend.text = element_text(size = 6, margin = margin(0, 0, 0, 0.05, unit = "cm")), 
+        legend.key.size = unit(0.25, "cm"), 
     )
-# ggsave("sample_loading_12_Concatenation_YMC2005.pdf", width = 11.5, height = 7, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
-ggsave("sample_loading_12_Concatenation_YMC2005_ver2.pdf", width = 11, height = 7, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
-
+ggsave("sample_loading_12_Concatenation_YMC2005_ver2.pdf", width = 11, height = 7, units = "cm" ) 
 
 
 # YMC2014
@@ -198,22 +187,22 @@ ggplot(data_plot, aes(x = Sample, y = Loading)) +
     theme(
         plot.title = element_text(size = 9, vjust = -2), 
         plot.subtitle = element_text(size = 7, vjust = -2),
-        axis.text.x = element_text(size = 6, vjust = 1.2), # 使y轴标签稍微靠近刻度线
-        axis.text.y = element_text(size = 5, hjust = 1.2), # 使y轴标签稍微靠近刻度线
+        axis.text.x = element_text(size = 6, vjust = 1.2), 
+        axis.text.y = element_text(size = 5, hjust = 1.2), 
         axis.title = element_text(size = 7),
-        axis.line = element_blank(), # 去掉坐标轴，否则会和边框重复导致线宽加粗
-        axis.ticks = element_line(linewidth = 0.25), # 坐标刻度线宽度，但是似乎比pt更大一点
-        axis.ticks.length = unit(0.07, "cm"), # 坐标刻度长度
-        panel.border = element_rect(linewidth = 0.25), # 分面的框线宽度
-        panel.grid = element_line(linewidth = 0.25), # 分面内格线宽度
-        panel.spacing.y = unit(0.01, "cm"), # 不同分面的距离
-        strip.text = element_text(size = 7), # 分面标题大小
-        strip.background = element_blank(), # 去除分面标题框背景
-        strip.switch.pad.grid = unit(0.01, "cm"), # 分面标题距离分面的距离
+        axis.line = element_blank(), 
+        axis.ticks = element_line(linewidth = 0.25), 
+        axis.ticks.length = unit(0.07, "cm"), 
+        panel.border = element_rect(linewidth = 0.25), 
+        panel.grid = element_line(linewidth = 0.25), 
+        panel.spacing.y = unit(0.01, "cm"), 
+        strip.text = element_text(size = 7), 
+        strip.background = element_blank(), 
+        strip.switch.pad.grid = unit(0.01, "cm"), 
         legend.position = "none",
     )
-# ggsave("sample_loading_12_Concatenation_YMC2014.pdf", width = 6.5, height = 7, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
-ggsave("sample_loading_12_Concatenation_YMC2014_ver2.pdf", width = 6, height = 7, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
+# ggsave("sample_loading_12_Concatenation_YMC2014.pdf", width = 6.5, height = 7, units = "cm" ) 
+ggsave("sample_loading_12_Concatenation_YMC2014_ver2.pdf", width = 6, height = 7, units = "cm" ) 
 
 
 # H3K9ac ------------------------------------------------------------------
@@ -253,22 +242,22 @@ ggplot(data_plot, aes(x = Sample, y = Loading)) +
     theme(
         plot.title = element_text(size = 9, vjust = -2), 
         plot.subtitle = element_text(size = 7, vjust = -2),
-        axis.text.x = element_text(size = 6, vjust = 1.2), # 使y轴标签稍微靠近刻度线
-        axis.text.y = element_text(size = 5, hjust = 1.2), # 使y轴标签稍微靠近刻度线
+        axis.text.x = element_text(size = 6, vjust = 1.2), 
+        axis.text.y = element_text(size = 5, hjust = 1.2), 
         axis.title = element_text(size = 7),
-        axis.line = element_blank(), # 去掉坐标轴，否则会和边框重复导致线宽加粗
-        axis.ticks = element_line(linewidth = 0.25), # 坐标刻度线宽度，但是似乎比pt更大一点
-        axis.ticks.length = unit(0.07, "cm"), # 坐标刻度长度
-        panel.border = element_rect(linewidth = 0.25), # 分面的框线宽度
-        panel.grid = element_line(linewidth = 0.25), # 分面内格线宽度
-        panel.spacing.y = unit(0.01, "cm"), # 不同分面的距离
-        strip.text = element_text(size = 7), # 分面标题大小
-        strip.background = element_blank(), # 去除分面标题框背景
-        strip.switch.pad.grid = unit(0.01, "cm"), # 分面标题距离分面的距离
+        axis.line = element_blank(), 
+        axis.ticks = element_line(linewidth = 0.25), 
+        axis.ticks.length = unit(0.07, "cm"), 
+        panel.border = element_rect(linewidth = 0.25), 
+        panel.grid = element_line(linewidth = 0.25), 
+        panel.spacing.y = unit(0.01, "cm"), 
+        strip.text = element_text(size = 7), 
+        strip.background = element_blank(), 
+        strip.switch.pad.grid = unit(0.01, "cm"), 
         legend.position = "none",
     )
-# ggsave("sample_loading_12_H3K9ac.pdf", width = 5.5, height = 7, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
-ggsave("sample_loading_12_H3K9ac_ver2.pdf", width = 5, height = 7, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
+# ggsave("sample_loading_12_H3K9ac.pdf", width = 5.5, height = 7, units = "cm" ) 
+ggsave("sample_loading_12_H3K9ac_ver2.pdf", width = 5, height = 7, units = "cm" ) 
 
 
 
@@ -309,22 +298,22 @@ ggplot(data_plot, aes(x = Sample, y = Loading)) +
     theme(
         plot.title = element_text(size = 9, vjust = -2), 
         plot.subtitle = element_text(size = 7, vjust = -2),
-        axis.text.x = element_text(size = 6, vjust = 1.2), # 使y轴标签稍微靠近刻度线
-        axis.text.y = element_text(size = 5, hjust = 1.2), # 使y轴标签稍微靠近刻度线
+        axis.text.x = element_text(size = 6, vjust = 1.2), 
+        axis.text.y = element_text(size = 5, hjust = 1.2), 
         axis.title = element_text(size = 7),
-        axis.line = element_blank(), # 去掉坐标轴，否则会和边框重复导致线宽加粗
-        axis.ticks = element_line(linewidth = 0.25), # 坐标刻度线宽度，但是似乎比pt更大一点
-        axis.ticks.length = unit(0.07, "cm"), # 坐标刻度长度
-        panel.border = element_rect(linewidth = 0.25), # 分面的框线宽度
-        panel.grid = element_line(linewidth = 0.25), # 分面内格线宽度
-        panel.spacing.y = unit(0.01, "cm"), # 不同分面的距离
-        strip.text = element_text(size = 7), # 分面标题大小
-        strip.background = element_blank(), # 去除分面标题框背景
-        strip.switch.pad.grid = unit(0.01, "cm"), # 分面标题距离分面的距离
+        axis.line = element_blank(), 
+        axis.ticks = element_line(linewidth = 0.25), 
+        axis.ticks.length = unit(0.07, "cm"), 
+        panel.border = element_rect(linewidth = 0.25), 
+        panel.grid = element_line(linewidth = 0.25), 
+        panel.spacing.y = unit(0.01, "cm"), 
+        strip.text = element_text(size = 7), 
+        strip.background = element_blank(), 
+        strip.switch.pad.grid = unit(0.01, "cm"), 
         legend.position = "none",
     )
-# ggsave("sample_loading_12_H3K18ac.pdf", width = 5.5, height = 7, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
-ggsave("sample_loading_12_H3K18ac_ver2.pdf", width = 5, height = 7, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
+# ggsave("sample_loading_12_H3K18ac.pdf", width = 5.5, height = 7, units = "cm" ) 
+ggsave("sample_loading_12_H3K18ac_ver2.pdf", width = 5, height = 7, units = "cm" ) 
 
 # H4K5ac ------------------------------------------------------------------
 # 
@@ -383,22 +372,22 @@ ggplot(data_plot, aes(x = Sample, y = Loading)) +
     theme(
         plot.title = element_text(size = 9, vjust = -2), 
         plot.subtitle = element_text(size = 7, vjust = -2),
-        axis.text.x = element_text(size = 6, vjust = 1.2), # 使y轴标签稍微靠近刻度线
-        axis.text.y = element_text(size = 5, hjust = 1.2), # 使y轴标签稍微靠近刻度线
+        axis.text.x = element_text(size = 6, vjust = 1.2), 
+        axis.text.y = element_text(size = 5, hjust = 1.2), 
         axis.title = element_text(size = 7),
-        axis.line = element_blank(), # 去掉坐标轴，否则会和边框重复导致线宽加粗
-        axis.ticks = element_line(linewidth = 0.25), # 坐标刻度线宽度，但是似乎比pt更大一点
-        axis.ticks.length = unit(0.07, "cm"), # 坐标刻度长度
-        panel.border = element_rect(linewidth = 0.25), # 分面的框线宽度
-        panel.grid = element_line(linewidth = 0.25), # 分面内格线宽度
-        panel.spacing.y = unit(0.01, "cm"), # 不同分面的距离
-        strip.text = element_text(size = 7), # 分面标题大小
-        strip.background = element_blank(), # 去除分面标题框背景
-        strip.switch.pad.grid = unit(0.01, "cm"), # 分面标题距离分面的距离
+        axis.line = element_blank(), 
+        axis.ticks = element_line(linewidth = 0.25), 
+        axis.ticks.length = unit(0.07, "cm"), 
+        panel.border = element_rect(linewidth = 0.25), 
+        panel.grid = element_line(linewidth = 0.25), 
+        panel.spacing.y = unit(0.01, "cm"),
+        strip.text = element_text(size = 7), 
+        strip.background = element_blank(), 
+        strip.switch.pad.grid = unit(0.01, "cm"), 
         legend.position = "none",
     )
-# ggsave("sample_loading_12_Metabolite_interpolated_lc.pdf", width = 7.2, height = 7, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
-ggsave("sample_loading_12_Metabolite_interpolated_lc_ver2.pdf", width = 6.7, height = 7, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
+# ggsave("sample_loading_12_Metabolite_interpolated_lc.pdf", width = 7.2, height = 7, units = "cm" ) 
+ggsave("sample_loading_12_Metabolite_interpolated_lc_ver2.pdf", width = 6.7, height = 7, units = "cm" ) 
 
 
 # Metabolite_interpolated_gc ------------------------------------------------------------------

@@ -1,12 +1,6 @@
 
 enrichment_wilcoxon_test.1 <- function(pathway.data, loading.data) {
 
-    # 富集计算方法1：
-    # 以如下两组基因的载荷作为样本做 Wilcoxon 两样本秩和检验：
-    # （1）基因特征向量全部基因和某个通路的交；
-    # （2）基因特征向量全部基因和“所有通路并集减该通路“的交；
-    # 注意：每个通路正极的 p-value 和负极的 p-value 和为1。
-
     pathway.data <- pathway.data %>%
         select(
             id,
@@ -48,8 +42,6 @@ enrichment_wilcoxon_test.1 <- function(pathway.data, loading.data) {
             pathwayGene = pathwayGene %>%
                 str_c(collapse = ",") %>%
                 list(),
-            # 不可用if_else，ifelse短路但if_else不短路，
-            # 在condition为FALSE的位置依然会计算true参数
             pvalue.pos = ifelse(
                 num.of.targets >= 1L,
                 wilcox.test(
@@ -78,12 +70,6 @@ enrichment_wilcoxon_test.1 <- function(pathway.data, loading.data) {
 
 enrichment_wilcoxon_test.2 <- function(pathway.data, loading.data) {
 
-    # 富集计算方法2：
-    # 以如下两组基因的载荷作为样本做 Wilcoxon 两样本秩和检验：
-    # （1）基因特征向量全部基因和某个通路的交；
-    # （2）基因特征向量全部基因减该通路；
-    # 注意：每个通路正极的 p-value 和负极的 p-value 和为1。
-
     pathway.data <- pathway.data %>%
         select(
             id,
@@ -117,8 +103,6 @@ enrichment_wilcoxon_test.2 <- function(pathway.data, loading.data) {
             pathwayGene = pathwayGene %>%
                 str_c(collapse = ",") %>%
                 list(),
-            # 不可用if_else，ifelse短路但if_else不短路，
-            # 在condition为FALSE的位置依然会计算true参数
             pvalue.pos = ifelse(
                 num.of.targets >= 1L,
                 wilcox.test(
@@ -147,12 +131,6 @@ enrichment_wilcoxon_test.2 <- function(pathway.data, loading.data) {
 
 enrichment_wilcoxon_test.3 <- function(pathway.data, loading.data) {
 
-    # 富集计算方法3:
-    # 计算正极的 p-value 时，把基因特征向量中负的载荷都置为0；
-    # 计算负极的 p-value 时，把基因特征向量中正的载荷都置为0；
-    # 然后以这两个新的载荷向量作为参与检验的载荷向量，
-    # 用方法1分别计算正极的 p—value 和负极的 p—value。
-    # 注意：每个通路正极的 p-value 和负极的 p-value 和不为1。
 
     pathway.data <- pathway.data %>%
         select(
@@ -199,8 +177,6 @@ enrichment_wilcoxon_test.3 <- function(pathway.data, loading.data) {
             pathwayGene = pathwayGene %>%
                 str_c(collapse = ",") %>%
                 list(),
-            # 不可用if_else，ifelse短路但if_else不短路，
-            # 在condition为FALSE的位置依然会计算true参数
             pvalue.pos = ifelse(
                 num.of.targets >= 1L,
                 wilcox.test(
@@ -228,13 +204,6 @@ enrichment_wilcoxon_test.3 <- function(pathway.data, loading.data) {
 }
 
 enrichment_wilcoxon_test.4 <- function(pathway.data, loading.data) {
-
-    # 富集计算方法4：
-    # 计算正极的 p-value 时，把基因特征向量中负的载荷都置为0；
-    # 计算负极的 p-value 时，把基因特征向量中正的载荷都置为0；
-    # 然后以这两个新的载荷向量作为参与检验的载荷向量，
-    # 用方法2分别计算正极的 p—value 和负极的 p—value。
-    # 注意：每个通路正极的 p-value 和负极的 p-value 和不为1。
 
     pathway.data <- pathway.data %>%
         select(
@@ -274,8 +243,6 @@ enrichment_wilcoxon_test.4 <- function(pathway.data, loading.data) {
             pathwayGene = pathwayGene %>%
                 str_c(collapse = ",") %>%
                 list(),
-            # 不可用if_else，ifelse短路但if_else不短路，
-            # 在condition为FALSE的位置依然会计算true参数
             pvalue.pos = ifelse(
                 num.of.targets >= 1L,
                 wilcox.test(
@@ -337,7 +304,6 @@ do_enrichment <- function(list, loading.dir) {
 
 write_raw_result <- function(enrichment_result, raw_result.dir) {
 
-    # # 单文件存储
     # list.save(
     #     enrichment_result,
     #     file = file.path(raw_result.dir, "enrichment_result.RData")
@@ -358,12 +324,11 @@ write_raw_result <- function(enrichment_result, raw_result.dir) {
 
 read_raw_result <- function(raw_result.dir) {
 
-    # 单文件读取
+
     # enrichment_result <- list.load(
     #     file = file.path(raw_result.dir, "enrichment_result.RData")
     # )
 
-    # 分物种读取
     enrichment_result <- list()
     for (s in species_list) {
         enrichment_result[[s]] <- list.load(
@@ -548,27 +513,14 @@ formatResult3 <- function(enrichment_result, s) {
         result.temp[[g]] <- result.temp[[g]] %>%
             bind_rows()
     }
-    # 检查是否有通路的正极和负极的p值都不高于 signif_level
-    # print(s)
-    # check_pvalue <- result.temp %>%
-    #     list.mapv(min(pmax(pvalue.pos, pvalue.neg), na.rm = TRUE))
-    # print(check_pvalue)
-    # if (min(check_pvalue) <= signif_level)
-    #     cat(str_glue("有通路的正负极p值都不高于{signif_level}!\n"))
-    # check_pvalue <- result.temp %>%
-    #     list.mapv(sum(pmax(pvalue.pos, pvalue.neg) <= signif_level, na.rm = TRUE)) %>%
-    #     unname()
-    # print(check_pvalue)
-    # if (min(check_pvalue) >= 1)
-    #     cat(str_glue("有通路的正负极p值都不高于{signif_level}!\n"))
+
     result <- result.temp[[gene_list[1]]] %>%
         select(!c(pvalue.pos, pvalue.neg))
     for (g in gene_list) {
         result <- result %>%
             mutate(
                 !!str_glue("pvalue.{g}") :=
-                    # 假设每个通路只在一极显著（绝大多数情况），
-                    # 因此只考虑p值更小的那极
+
                     with(
                         result.temp[[g]],
                         if_else(
@@ -582,15 +534,12 @@ formatResult3 <- function(enrichment_result, s) {
     }
     pvalue_columns <- syms(str_c("pvalue.", gene_list))
     result <- result %>%
-        # 将不显著的p-value替换为缺失值
         modify_at(
             .at = str_c("pvalue.", gene_list),
             .f = ~ if_else(between(., -signif_level, signif_level), ., NA_real_)
         ) %>%
-        # 过滤掉在每一维都不显著的通路
         filter(!is.na(coalesce(!!!pvalue_columns)))
     result <- result %>%
-        # 对 pathwayGene_in_geneEigenvectors 列按基因首字母排序
         mutate(
             pathwayGene_in_geneEigenvectors = pathwayGene_in_geneEigenvectors %>%
                 str_split(",") %>%

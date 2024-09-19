@@ -4,7 +4,6 @@ suppressMessages({
   library(tidyverse)
 })
 
-setwd("Z:/home/wanglinting/Yeast/CodeOcean/figures/sample_loading_compare")
 
 # parameters --------------------------------------------------------------
 
@@ -240,79 +239,38 @@ shapes <- c(
     'Dissolved oxygen' = NA,
     'Transcriptome from Tu et al. 2005' = 16,
     'Metabolome' = 15
-) # 使用NA为'Oxygen'指定“无形状”
+) 
 
-# ggplot(data_res) +
-#     facet_wrap( ~ Dim, scales = "free_y", ncol = 1) +
-#     # 氧气曲线
-#     geom_line(data = data_oxygen, aes(x = Time, y = dO2_scaled, color = 'Dissolved oxygen ', shape = 'Dissolved oxygen '), linewidth = 0.25) +
-#     geom_line(aes(x = Time, y = Loading, color = type), linewidth = 0.25) +
-#     geom_point(aes(x = Time, y = Loading, shape = type, color = type), size = 0.5) +
-#     # 横截线
-#     geom_hline(yintercept = 0, linetype = "longdash", linewidth = 0.2, color = 'grey45') +
-#     # 氧气曲线的刻度，在右侧
-#     scale_y_continuous(sec.axis = sec_axis( ~ (. + 1.2) / scale_factor, name = "dO2(%)")) +
-#     # 手动设置图例对应，来确保三条线都显示到图例中
-#     scale_color_manual(values = colors) +
-#     scale_shape_manual(values = shapes) +
-#     labs(x = "Time (h)", y = "Loading", color = "Data", shape = "Data") +
-#     xlim(0, 10.2) +
-#     # 图例两行
-#     guides(color = guide_legend(nrow = 2, byrow = TRUE)) +
-#     theme_bw() +
-#     theme(
-#         axis.text.x = element_text(size = 6, vjust = 1.2), # 使y轴标签稍微靠近刻度线
-#         axis.text.y = element_text(size = 6, hjust = 1.2), # 使y轴标签稍微靠近刻度线
-#         axis.title = element_text(size = 7),
-#         axis.line = element_blank(), # 去掉坐标轴，否则会和边框重复导致线宽加粗
-#         axis.ticks = element_line(linewidth = 0.25), # 坐标刻度线宽度，但是似乎比pt更大一点
-#         axis.ticks.length = unit(0.07, "cm"), # 坐标刻度长度
-#         panel.border = element_rect(linewidth = 0.25), # 分面的框线宽度
-#         panel.grid = element_line(linewidth = 0.25), # 分面内格线宽度
-#         panel.spacing.y = unit(0.01, "cm"), # 不同分面的距离
-#         strip.text = element_text(size = 7), # 分面标题大小
-#         strip.background = element_blank(), # 去除分面标题框背景
-#         strip.switch.pad.grid = unit(0.01, "cm"), # 分面标题距离分面的距离
-#         legend.title = element_blank(),
-#         legend.text = element_text(size = 6, margin = margin(0, 0, 0, -0.1, unit = "cm")),
-#         legend.key.size = unit(0.3, "cm"),
-#         legend.position = "top"
-#     )
 ggplot(data_res) +
     facet_wrap( ~ Dim, scales = "free_y", ncol = 1) +
-    # 氧气曲线
     geom_line(data = data_oxygen, aes(x = Time, y = dO2_scaled, color = 'Dissolved oxygen'), linewidth = 0.25) +
     geom_line(aes(x = Time, y = Loading, color = type), linewidth = 0.35) +
-    # 横截线
     geom_hline(yintercept = 0, linetype = "longdash", linewidth = 0.2, color = 'grey45') +
-    # 氧气曲线的刻度，在右侧
     scale_y_continuous(sec.axis = sec_axis( ~ (. + 1.2) / scale_factor, name = expression(dO[2] * "(%)"))) +
-    # 手动设置图例对应，来确保三条线都显示到图例中
     scale_color_manual(values = colors) +
     labs(x = "Time (h)", y = "Loading", color = "Data") +
     xlim(0.4, 10) +
-    # 图例两行
     guides(color = guide_legend(nrow = 2, byrow = TRUE)) +
     theme_bw() +
     theme(
-        axis.text.x = element_text(size = 6, vjust = 1.2), # 使y轴标签稍微靠近刻度线
-        axis.text.y = element_text(size = 6, hjust = 1.2), # 使y轴标签稍微靠近刻度线
+        axis.text.x = element_text(size = 6, vjust = 1.2), 
+        axis.text.y = element_text(size = 6, hjust = 1.2), 
         axis.title = element_text(size = 7),
-        axis.line = element_blank(), # 去掉坐标轴，否则会和边框重复导致线宽加粗
-        axis.ticks = element_line(linewidth = 0.25), # 坐标刻度线宽度，但是似乎比pt更大一点
-        axis.ticks.length = unit(0.07, "cm"), # 坐标刻度长度
-        panel.border = element_rect(linewidth = 0.25), # 分面的框线宽度
-        panel.grid = element_line(linewidth = 0.25), # 分面内格线宽度
-        panel.spacing.y = unit(0.01, "cm"), # 不同分面的距离
-        strip.text = element_text(size = 7), # 分面标题大小
-        strip.background = element_blank(), # 去除分面标题框背景
-        strip.switch.pad.grid = unit(0.01, "cm"), # 分面标题距离分面的距离
+        axis.line = element_blank(), 
+        axis.ticks = element_line(linewidth = 0.25), 
+        axis.ticks.length = unit(0.07, "cm"), 
+        panel.border = element_rect(linewidth = 0.25), 
+        panel.grid = element_line(linewidth = 0.25), 
+        panel.spacing.y = unit(0.01, "cm"),
+        strip.text = element_text(size = 7), 
+        strip.background = element_blank(), 
+        strip.switch.pad.grid = unit(0.01, "cm"), 
         legend.title = element_blank(),
         legend.text = element_text(size = 6, margin = margin(0, 0, 0, -0.1, unit = "cm")),
         legend.key.size = unit(0.3, "cm"),
         legend.position = "top"
     )
-ggsave("sample_loading_metabolite&YMC2005_interpolated_lc.pdf", width = 9.3, height = 8.5, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
-# ggsave("sample_loading_metabolite&YMC2005_interpolated_gc.pdf", width = 9.3, height = 8.5, units = "cm" ) # pdf会带有0.4cm左右的白边，可以适当加大尺寸
+ggsave("sample_loading_metabolite&YMC2005_interpolated_lc.pdf", width = 9.3, height = 8.5, units = "cm" ) 
+# ggsave("sample_loading_metabolite&YMC2005_interpolated_gc.pdf", width = 9.3, height = 8.5, units = "cm" ) 
 
 
