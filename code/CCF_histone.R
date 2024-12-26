@@ -180,14 +180,6 @@ for (data_name in data_list) {
             interp$value <- normalize(interp$value)
         }
 
-        # plot the results of interpolation
-        p <- ggplot() +
-            geom_line(data = interp_ref, aes(x = time, y = value, color = "Transcriptome of Zheng et al. 2014")) +
-            geom_line(data = interp, aes(x = time, y = value, color = "Epigenome of histone modification")) +
-            labs(title = str_glue("{interpolation_method} interpolation"), x = "Time (h)", y = "Loading") +
-            theme_minimal()
-        ggsave(file.path(dir_res, str_glue("Interpolation_{data_name}_{i}.pdf")), p, height = 5, width = 10)
-
         # cross-correlation
         ccf_result <- ccf(interp$value, interp_ref$value, lag.max = 1000, plot = F)
         lag_max <- ccf_result$lag[which.max(abs(ccf_result$acf))]
