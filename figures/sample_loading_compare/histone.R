@@ -1,15 +1,12 @@
 suppressMessages({
-  library(rlist)
-  library(tidyverse)
+    library(tidyverse)
 })
 
 
 # parameters --------------------------------------------------------------
 
-# read config file
-config <- list.load("../../code/config.yaml")
-number_dim <- config$number_dim
-
+number_dim <- 6
+dir_res <- "../../results/temp"
 
 # functions ---------------------------------------------------------------
 
@@ -35,27 +32,6 @@ getRNASeqTime <- function(x) {
   )
 }
 
-# getChipSeqTime <- function(x) {
-#   switch(
-#     x,
-#     T1 = 0.345,
-#     T2 = 0.610,
-#     T3 = 0.745,
-#     T4 = 0.888,
-#     T5 = 1.106,
-#     T6 = 1.362,
-#     T7 = 1.616,
-#     T8 = 1.780,
-#     T9 = 1.912,
-#     T10 = 2.031,
-#     T11 = 2.258,
-#     T12 = 2.400,
-#     T13 = 2.886,
-#     T14 = 3.251,
-#     T15 = 3.647,
-#     T16 = 4.017
-#   )
-# }
 getChipSeqTime <- function(x) {
     switch(
         x,
@@ -82,32 +58,35 @@ getChipSeqTime <- function(x) {
 # read data ---------------------------------------------------------------
 
 # rnaseq data
-file_rnaseq_sample <- "../../results/temp/rnaseq14/sample_name.txt"
-file_rnaseq_v <- "../../results/temp/rnaseq14/svd/V.txt"
-data_rnaseq_sample <- read_table(file_rnaseq_sample, col_names = "Sample") %>%
+data_name <- "MUREN_log_YMC2014"
+file_sample <- file.path(dir_res, data_name, "sample_name.txt")
+file_v <- file.path(dir_res, data_name, "svd/V.txt")
+data_rnaseq_sample <- read_table(file_sample, col_names = "Sample") %>%
     mutate(Time = sapply(Sample, getRNASeqTime))
-data_rnaseq_v <- read_table(file_rnaseq_v, 
+data_rnaseq_v <- read_table(file_v, 
                             col_names = as.character(0:(number_dim-1)))
 data_rnaseq <- data_rnaseq_sample %>%
     bind_cols(data_rnaseq_v)
 
 # H3K9ac
-file_H3K9ac_sample <- "../../results/temp/H3K9ac/sample_name.txt"
-file_H3K9ac_v <- "../../results/temp/H3K9ac/svd/V.txt"
-data_H3K9ac_sample <- read_table(file_H3K9ac_sample, col_names = "Sample") %>%
+data_name <- "H3K9ac"
+file_sample <- file.path(dir_res, data_name, "sample_name.txt")
+file_v <- file.path(dir_res, data_name, "svd/V.txt")
+data_H3K9ac_sample <- read_table(file_sample, col_names = "Sample") %>%
     mutate(Time = sapply(Sample, getChipSeqTime))
-data_H3K9ac_v <-  read_table(file_H3K9ac_v, 
+data_H3K9ac_v <-  read_table(file_v, 
                               col_names = as.character(0:(number_dim-1)))
 data_H3K9ac <- data_H3K9ac_sample %>%
     bind_cols(data_H3K9ac_v)
 
 
 # H3K18ac
-file_H3K18ac_sample <- "../../results/temp/H3K18ac/sample_name.txt"
-file_H3K18ac_v <- "../../results/temp/H3K18ac/svd/V.txt"
-data_H3K18ac_sample <- read_table(file_H3K18ac_sample, col_names = "Sample") %>%
+data_name <- "H3K18ac"
+file_sample <- file.path(dir_res, data_name, "sample_name.txt")
+file_v <- file.path(dir_res, data_name, "svd/V.txt")
+data_H3K18ac_sample <- read_table(file_sample, col_names = "Sample") %>%
     mutate(Time = sapply(Sample, getChipSeqTime))
-data_H3K18ac_v <-  read_table(file_H3K18ac_v, 
+data_H3K18ac_v <-  read_table(file_v, 
                              col_names = as.character(0:(number_dim-1)))
 data_H3K18ac <- data_H3K18ac_sample %>%
     bind_cols(data_H3K18ac_v)
@@ -163,30 +142,6 @@ scale_factor <- (max(data_res$Loading) - min(data_res$Loading)) / 40
 data_oxygen <- read_csv("oxygen_ref_YMC2014.csv") %>%
     mutate(dO2_scaled = dO2 * scale_factor - 1)
 
-# 850*500
-# ggplot(data_res) +
-#     facet_wrap(~Dim, scales = "free_y", ncol = 1) +
-#     geom_line(data = data_oxygen,
-#               aes(x = Time, y = dO2_scaled, color = 'oxygen'),
-#               color = "grey"
-#               ) +
-#     geom_line(aes(x = Time, y = Loading, color = data), linewidth = 0.5) +
-#     geom_point(aes(x = Time, y = Loading, shape = data, color = data)) +
-#     scale_y_continuous(sec.axis = sec_axis( ~ (. + 0.5) / scale_factor, name = "dO2(%)")) +
-#     labs(x = "Time(h)", y = "Loading", color = "Data", shape = "Data") +
-#     theme_bw() +
-#     theme(
-#         axis.text.x = element_text(size = 10, color = "black"),
-#         axis.text.y = element_text(size = 10, color = "black"),
-#         axis.title.x = element_text(size = 12, color = "black"),
-#         axis.title.y = element_text(size = 12, color = "black"),
-#         strip.text = element_text(size = 12),
-#         strip.background = element_rect(fill = "white", colour = "black"),
-#         legend.title = element_text(size = 12),
-#         legend.text = element_text(size = 10),
-#         legend.key.size = unit(0.3, "inches")
-#         )
-
 colors <- c(
     'Dissolved oxygen' = 'grey',
     'Transcriptome from Zheng et al. 2014' = '#FF7F50',
@@ -206,7 +161,7 @@ breakss <- c(
     'Epigenome for H3K18ac'
 ) 
 
-ggplot(data_res) +
+p <- ggplot(data_res) +
     facet_wrap(~Dim, scales = "free_y", ncol = 1) +
     geom_line(data = data_oxygen, aes(x = Time, y = dO2_scaled, color = 'Dissolved oxygen'), linewidth = 0.25) +
     geom_line(aes(x = Time, y = Loading, color = data), linewidth = 0.35) +
@@ -219,7 +174,7 @@ ggplot(data_res) +
     theme_bw() +
     theme(
         axis.text.x = element_text(size = 6, vjust = 1.2), 
-        axis.text.y = element_text(size = 6, hjust = 1.2),
+        axis.text.y = element_text(size = 6, hjust = 1.2), 
         axis.title = element_text(size = 7),
         axis.line = element_blank(), 
         axis.ticks = element_line(linewidth = 0.25), 
@@ -229,11 +184,11 @@ ggplot(data_res) +
         panel.spacing.y = unit(0.01, "cm"), 
         strip.text = element_text(size = 7), 
         strip.background = element_blank(), 
-        strip.switch.pad.grid = unit(0.01, "cm"),
+        strip.switch.pad.grid = unit(0.01, "cm"), 
         legend.title = element_blank(),
-        legend.text = element_text(size = 6, margin = margin(0, 0, 0, -0.1, unit = "cm")),
+        legend.text = element_text(size = 6, margin = margin(0, 0, 0, 0.1, unit = "cm")),
         legend.key.size = unit(0.3, "cm"),
         legend.position = "top"
     )
-ggsave("sample_loading_histone&YMC2014.pdf", width = 9, height = 8.5, units = "cm" ) 
+ggsave("sample_loading_histone&YMC2014.pdf", p, width = 9, height = 8.5, units = "cm" ) 
 

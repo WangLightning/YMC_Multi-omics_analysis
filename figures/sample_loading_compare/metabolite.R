@@ -1,15 +1,11 @@
-rm(list = ls())
 suppressMessages({
-  library(rlist)
-  library(tidyverse)
+    library(tidyverse)
 })
 
 
 # parameters --------------------------------------------------------------
 
-# read config file
-config <- list.load("../../code/config.yaml")
-number_dim <- config$number_dim
+number_dim <- 6
 
 
 # function ----------------------------------------------------------------
@@ -225,7 +221,6 @@ data_res <- data_microarray_1 %>%
     bind_rows(data_metabolite_2) %>%
     mutate(data = factor(type, levels = c("Transcriptome from Tu et al. 2005", "Metabolome")))
 
-# scale_factor <- (max(data_res$Loading) - min(data_res$Loading)) / 40
 scale_factor <- 0.7 / 40
 data_oxygen <- read_csv("oxygen_ref_YMC2005.csv", show_col_types = FALSE) %>%
     mutate(dO2_scaled = dO2 * scale_factor - 0.7)
@@ -257,20 +252,19 @@ ggplot(data_res) +
         axis.text.y = element_text(size = 6, hjust = 1.2), 
         axis.title = element_text(size = 7),
         axis.line = element_blank(), 
-        axis.ticks = element_line(linewidth = 0.25), 
+        axis.ticks = element_line(linewidth = 0.25),
         axis.ticks.length = unit(0.07, "cm"), 
         panel.border = element_rect(linewidth = 0.25), 
         panel.grid = element_line(linewidth = 0.25), 
-        panel.spacing.y = unit(0.01, "cm"),
+        panel.spacing.y = unit(0.01, "cm"), 
         strip.text = element_text(size = 7), 
-        strip.background = element_blank(), 
-        strip.switch.pad.grid = unit(0.01, "cm"), 
+        strip.background = element_blank(),
+        strip.switch.pad.grid = unit(0.01, "cm"),
         legend.title = element_blank(),
         legend.text = element_text(size = 6, margin = margin(0, 0, 0, -0.1, unit = "cm")),
         legend.key.size = unit(0.3, "cm"),
         legend.position = "top"
     )
 ggsave("sample_loading_metabolite&YMC2005_interpolated_lc.pdf", width = 9.3, height = 8.5, units = "cm" ) 
-# ggsave("sample_loading_metabolite&YMC2005_interpolated_gc.pdf", width = 9.3, height = 8.5, units = "cm" ) 
 
 

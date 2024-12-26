@@ -1,23 +1,46 @@
 #!/bin/bash
 
-# nohup bash run.sh > run.log 2>&1 &
-
-set -ue
-
+# 执行每条语句前打印时间
 printExecuteTime() {
     echo -e "\n-------------------------" start running $*: $(date "+%Y-%m-%d %H:%M:%S") "-------------------------"
 }
 
-#################################### main ############################################
+#################################### SVD ############################################
 
-printExecuteTime data_process.R
-Rscript data_process.R 
+printExecuteTime singular_value_decomposition.R
+Rscript singular_value_decomposition.R 
 
-printExecuteTime matrix_decomposition.R
-Rscript matrix_decomposition.R 
+printExecuteTime sample_loading_plot.R
+Rscript sample_loading_plot.R
 
-printExecuteTime matrix_decomposition_metabolic.R
-Rscript matrix_decomposition_metabolic.R 
+printExecuteTime s_value.R
+Rscript s_value.R 
+
+printExecuteTime gene_correlation.R
+Rscript gene_correlation.R 
+
+#################################### CCF&timing ##################################
+
+printExecuteTime CCF_histone.R
+Rscript CCF_histone.R 
+
+printExecuteTime CCF_histone_perturbation.R
+Rscript CCF_histone_perturbation.R 
+
+printExecuteTime CCF_metabolome.R
+Rscript CCF_metabolome.R 
+
+printExecuteTime CCF_metabolome_perturbation.R
+Rscript CCF_metabolome_perturbation.R 
+
+
+#################################### contribution ##################################
+
+printExecuteTime histone_contribution.R
+Rscript histone_contribution.R 
+
+
+#################################### enrichment ##################################
 
 printExecuteTime gene_enrichment_analysis.R
 Rscript gene_enrichment_analysis.R 

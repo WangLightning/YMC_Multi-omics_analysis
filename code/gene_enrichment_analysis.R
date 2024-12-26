@@ -7,15 +7,15 @@ suppressMessages({
 
 # Parameters setting ----------------------------------------------------------
 
+dir_result <- "../results"
+
 # read config file
 config <- list.load("config.yaml")
 
-dir_result <- "../results"
-database.dir <- "../data/pathway_database_20230530"
+database.dir <- config$pathway_database_dir
 CPUs <- config$CPUs
 number_dim <- config$number_dim
-data_list <- config$data_list
-
+data_list <- config$data_transcriptome_list
 
 species_list <- c("yeast")
 family_list <- c("S.cerevisiae")
@@ -25,9 +25,7 @@ species_family_list <- list(
 pathway_list <- c(
     "go.bp",
     "go.cc",
-    "go.mf",
-    "kegg",
-    "reactome"
+    "go.mf"
 )
 gene_list <- str_c("gene", 1:(number_dim-1))
 
@@ -64,20 +62,6 @@ for (f in family_list) {
         pathway_data.list[[f]][[p]] <- pathway_data.list[[f]][[p]] %>%
             filter(geneNum %>% between(minGeneNum, maxGeneNum))
     }
-
-    # KEGG
-    p <- "kegg"
-    minGeneNum <- config$enrichment$KEGG$minGeneNum
-    maxGeneNum <- config$enrichment$KEGG$maxGeneNum
-    pathway_data.list[[f]][[p]] <- pathway_data.list[[f]][[p]] %>%
-        filter(geneNum %>% between(minGeneNum, maxGeneNum))
-
-    # Reactome
-    p <- "reactome"
-    minGeneNum <- config$enrichment$Reactome$minGeneNum
-    maxGeneNum <- config$enrichment$Reactome$maxGeneNum
-    pathway_data.list[[f]][[p]] <- pathway_data.list[[f]][[p]] %>%
-        filter(geneNum %>% between(minGeneNum, maxGeneNum))
 
 }
 

@@ -6,14 +6,19 @@
 CPUs: 40
 number_dim: 6
 
+dir_data: "../data"
 
 ############################## GetData #############################################
 
-data_list:
+file_annotation: "../data/annotation_SGD.tsv"
+
+data_transcriptome_list:
   - microarray 
-  - rnaseq14 
-  - concatenate
-  - H3K4me3 
+  - MUREN_log_YMC2014 
+  - transcriptome_concatenate
+
+data_histone_list:
+  - H3K4me3
   - H3K9ac
   - H3K14ac
   - H3K18ac
@@ -22,18 +27,21 @@ data_list:
   - H4K5ac
   - H4K16ac
 
+data_metabolome_list:
+  - Metabolite_gc
+  - Metabolite_lc
+  - Metabolite_interpolated_gc
+  - Metabolite_interpolated_lc
+
+
 
 ############################## Enrichment ######################################
+
+pathway_database_dir: "../data/pathway_database_20230530"
 
 enrichment:
   signif_level: 0.05
   GO:
-    minGeneNum: 1
-    maxGeneNum: .inf
-  KEGG:
-    minGeneNum: 1
-    maxGeneNum: .inf
-  Reactome:
     minGeneNum: 1
     maxGeneNum: .inf
   minCommonGeneNum: 5

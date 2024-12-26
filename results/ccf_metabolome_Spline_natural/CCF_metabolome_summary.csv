@@ -1,0 +1,9 @@
+Data,Dim,Max_ACF,Max_Lag
+Metabolite_gc,1,0.8373718803672698,8.46
+Metabolite_gc,2,0.623005219355451,0
+Metabolite_lc,1,0.8942310335702166,9.9
+Metabolite_lc,2,0.707655200073423,20.700000000000003
+Metabolite_interpolated_gc,1,0.9122414687575509,8.100000000000001
+Metabolite_interpolated_gc,2,0.7195340510194775,2.34
+Metabolite_interpolated_lc,1,0.9185126140048961,11.64
+Metabolite_interpolated_lc,2,0.6721326588902947,13.8
